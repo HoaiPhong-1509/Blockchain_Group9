@@ -1,16 +1,22 @@
-# React + Vite
+# Frontend (Vite + React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Gồm 2 chế độ:
+- **Built-in Wallet**: demo ví non-custodial, lưu vault mã hoá trong localStorage.
+- **MetaMask DApp**: tương tác ERC-20 qua MetaMask.
 
-Currently, two official plugins are available:
+## Cấu hình
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Copy file [frontend/.env.example](frontend/.env.example) thành `frontend/.env`.
 
-## React Compiler
+Biến môi trường quan trọng:
+- `VITE_SEPOLIA_RPC_URLS` (1 hoặc nhiều RPC Sepolia, ngăn cách bằng dấu phẩy)
+- `VITE_TOKEN_ADDRESS` (tuỳ chọn)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Chạy
 
-## Expanding the ESLint configuration
+```bash
+npm install
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Mở `http://localhost:5173`.
