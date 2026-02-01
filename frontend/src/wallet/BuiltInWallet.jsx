@@ -16,6 +16,10 @@ import {
 
 const SEPOLIA_CHAIN_ID = 11155111;
 const DEFAULT_TOKEN_ADDRESS = "0xDc434C7D3CB8487285d8694e77692B5804513d87";
+const DEFAULT_SEPOLIA_RPC_URLS = [
+  "https://ethereum-sepolia-rpc.publicnode.com",
+  "https://rpc.sepolia.org",
+];
 
 function shortAddr(a) {
   if (!a) return "";
@@ -81,10 +85,11 @@ export default function BuiltInWallet() {
       .map((s) => s.trim())
       .filter(Boolean);
 
-    if (urls.length === 0) return null;
-    if (urls.length === 1) return new ethers.JsonRpcProvider(urls[0]);
+    const effectiveUrls = urls.length > 0 ? urls : DEFAULT_SEPOLIA_RPC_URLS;
 
-    const providers = urls.map((u) => new ethers.JsonRpcProvider(u));
+    if (effectiveUrls.length === 1) return new ethers.JsonRpcProvider(effectiveUrls[0]);
+
+    const providers = effectiveUrls.map((u) => new ethers.JsonRpcProvider(u));
     return new ethers.FallbackProvider(providers);
   }, [rpcUrlsRaw, rpcUrlSingle]);
 
@@ -170,7 +175,6 @@ export default function BuiltInWallet() {
     try {
       setError("");
       setTxHash("");
-      if (!provider) throw new Error("Thiếu VITE_SEPOLIA_RPC_URLS hoặc VITE_SEPOLIA_RPC_URL (RPC Sepolia).");
 
       const u = safeTrim(username);
       if (!u) throw new Error("Username trống.");
@@ -293,7 +297,6 @@ export default function BuiltInWallet() {
   const refreshBalances = useCallback(async () => {
     try {
       setError("");
-      if (!provider) throw new Error("Thiếu VITE_SEPOLIA_RPC_URLS hoặc VITE_SEPOLIA_RPC_URL (RPC Sepolia).\nHãy cấu hình RPC Sepolia rồi reload trang.");
       if (!activeEthersWallet) throw new Error("Chưa chọn ví.");
 
       const [net, ethBal] = await Promise.all([
@@ -329,7 +332,6 @@ export default function BuiltInWallet() {
     try {
       setError("");
       setTxHash("");
-      if (!provider) throw new Error("Thiếu VITE_SEPOLIA_RPC_URLS hoặc VITE_SEPOLIA_RPC_URL (RPC Sepolia).");
       if (!activeEthersWallet) throw new Error("Chưa chọn ví.");
       if (!ethers.isAddress(to)) throw new Error("Địa chỉ nhận không hợp lệ.");
 
@@ -356,7 +358,6 @@ export default function BuiltInWallet() {
     try {
       setError("");
       setTxHash("");
-      if (!provider) throw new Error("Thiếu VITE_SEPOLIA_RPC_URLS hoặc VITE_SEPOLIA_RPC_URL (RPC Sepolia).");
       if (!activeEthersWallet) throw new Error("Chưa chọn ví.");
       if (!ethers.isAddress(to)) throw new Error("Địa chỉ nhận không hợp lệ.");
 
@@ -443,8 +444,8 @@ export default function BuiltInWallet() {
       <h2>Built-in Wallet (Accounts + Multi-wallet, Sepolia)</h2>
 
       {!rpcUrlsRaw && !rpcUrlSingle && (
-        <div style={{ color: "crimson", marginBottom: 12 }}>
-          Thiếu <b>VITE_SEPOLIA_RPC_URLS</b> hoặc <b>VITE_SEPOLIA_RPC_URL</b> trong môi trường frontend.
+        <div style={{ marginBottom: 12, opacity: 0.8, fontSize: 12, lineHeight: 1.4 }}>
+          Chưa cấu hình <b>VITE_SEPOLIA_RPC_URLS</b>/<b>VITE_SEPOLIA_RPC_URL</b> — app sẽ dùng RPC public mặc định.
         </div>
       )}
 

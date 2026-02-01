@@ -42,6 +42,18 @@ Mở `http://localhost:5173`.
 npm run build
 ```
 
+## Deploy frontend (GitHub Pages)
+
+Repo đã có workflow GitHub Actions để deploy frontend lên GitHub Pages.
+
+Các bước trên GitHub:
+- Vào **Settings → Pages**
+- **Build and deployment**: chọn **Source = GitHub Actions**
+- Push lên nhánh `main` (workflow sẽ tự build và publish)
+
+Sau khi chạy xong workflow, trang sẽ có dạng:
+`https://<username>.github.io/<repo>/`
+
 ## Hardhat (tuỳ chọn)
 
 ### Compile/Test
@@ -65,6 +77,8 @@ Sau đó deploy theo module:
 ```bash
 npx hardhat ignition deploy ./ignition/modules/Lock.js --network sepolia
 ```
+
+Lưu ý: ví của `PRIVATE_KEY` cần có SepoliaETH để trả gas.
 
 ## Lưu ý bảo mật
 - Không commit `.env` (repo đã ignore).
