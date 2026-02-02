@@ -18,7 +18,8 @@ const SEPOLIA_CHAIN_ID = 11155111;
 const DEFAULT_TOKEN_ADDRESS = "0xDc434C7D3CB8487285d8694e77692B5804513d87";
 const DEFAULT_SEPOLIA_RPC_URLS = [
   "https://ethereum-sepolia-rpc.publicnode.com",
-  "https://rpc.sepolia.org",
+  // Note: https://rpc.sepolia.org often blocks browser requests (CORS), especially from GitHub Pages.
+  "https://rpc.ankr.com/eth_sepolia",
 ];
 
 function shortAddr(a) {
@@ -421,7 +422,7 @@ export default function BuiltInWallet() {
     try {
       setError("");
       if (!file) return;
-      const text = await file.text();
+      const text = await file.text(); //đọc nội dung file thành string
       let backup;
       try {
         backup = JSON.parse(text);
