@@ -20,7 +20,6 @@ export default function MetamaskDapp() {
   const [txHash, setTxHash] = useState("");
 
   const hasMM = typeof window !== "undefined" && window.ethereum;
-
   const tokenAddress = import.meta.env.VITE_TOKEN_ADDRESS || DEFAULT_TOKEN_ADDRESS;
 
   const provider = useMemo(() => {
@@ -54,7 +53,6 @@ export default function MetamaskDapp() {
       setChainId(Number(net.chainId));
 
       const token = new ethers.Contract(tokenAddress, ERC20_ABI, provider);
-
       const [n, s, d, bal] = await Promise.all([
         token.name(),
         token.symbol(),
@@ -87,7 +85,6 @@ export default function MetamaskDapp() {
 
       const signer = await provider.getSigner();
       const token = new ethers.Contract(tokenAddress, ERC20_ABI, signer);
-
       const value = ethers.parseUnits(amount || "0", decimals);
       const tx = await token.transfer(to, value);
       setTxHash(tx.hash);
@@ -119,81 +116,77 @@ export default function MetamaskDapp() {
   }, [hasMM]);
 
   return (
-    <div style={{ fontFamily: "system-ui" }}>
-      <h2>GG Token DApp (MetaMask, Sepolia)</h2>
+    <div className="page">
+      <div className="page-title">
+        <h2>MetaMask DApp</h2>
+        <div className="pill">
+          <span>Network</span>
+          <b>Sepolia</b>
+        </div>
+      </div>
 
       {!hasMM && (
-        <p style={{ color: "crimson" }}>
+        <div className="error-banner">
           Bạn chưa cài MetaMask. Hãy cài MetaMask để dùng DApp.
-        </p>
+        </div>
       )}
 
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-        <button onClick={connect} disabled={!hasMM}>
-          Connect Wallet
-        </button>
-        <button onClick={refresh} disabled={!account}>
-          Load token / balance
-        </button>
-      </div>
+      <div className="card">
+        <div className="row">
+          <button className="btn-primary" onClick={connect} disabled={!hasMM}>
+            Connect Wallet
+          </button>
+          <button onClick={refresh} disabled={!account}>
+            Load token / balance
+          </button>
+        </div>
 
-      <div style={{ marginTop: 12, lineHeight: 1.7 }}>
-        <div>
-          <b>Account:</b> {account || "-"}
-        </div>
-        <div>
-          <b>ChainId:</b> {chainId ?? "-"}
-        </div>
-        <div>
-          <b>Token:</b> {tokenAddress}
-        </div>
-        <div>
-          <b>Name:</b> {name}
-        </div>
-        <div>
-          <b>Symbol:</b> {symbol}
-        </div>
-        <div>
-          <b>Balance:</b> {balance}
-        </div>
-      </div>
-
-      <hr style={{ margin: "16px 0" }} />
-
-      <h3>Transfer ERC-20</h3>
-      <div style={{ display: "grid", gap: 8, maxWidth: 520, margin: "0 auto" }}>
-        <input
-          placeholder="To address: 0x..."
-          value={to}
-          onChange={(e) => setTo(e.target.value)}
-        />
-        <input
-          placeholder="Amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-        <button onClick={send} disabled={!account}>
-          Send {symbol !== "-" ? symbol : "token"}
-        </button>
-
-        {txHash && (
+        <div style={{ marginTop: 12, lineHeight: 1.7, textAlign: "left" }}>
           <div>
-            <b>Tx hash:</b>{" "}
-            <a
-              href={`https://sepolia.etherscan.io/tx/${txHash}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {txHash}
-            </a>
+            <b>Account:</b> {account || "-"}
           </div>
-        )}
+          <div>
+            <b>ChainId:</b> {chainId ?? "-"}
+          </div>
+          <div className="muted" style={{ wordBreak: "break-all" }}>
+            <b>Token:</b> {tokenAddress}
+          </div>
+          <div>
+            <b>Name:</b> {name}
+          </div>
+          <div>
+            <b>Symbol:</b> {symbol}
+          </div>
+          <div>
+            <b>Balance:</b> {balance}
+          </div>
+        </div>
+      </div>
 
-        {error && (
-          <div style={{ color: "crimson" }}>
-            <b>Error:</b> {error}
-          </div>
-        )}
+      <div className="card" style={{ textAlign: "left" }}>
+        <div className="stack" style={{ maxWidth: 680, margin: "0 auto" }}>
+          <h3 style={{ margin: 0 }}>Transfer ERC-20</h3>
+          <input placeholder="To address: 0x..." value={to} onChange={(e) => setTo(e.target.value)} />
+          <input placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+          <button className="btn-primary" onClick={send} disabled={!account}>
+            Send {symbol !== "-" ? symbol : "token"}
+          </button>
+
+          {txHash && (
+            <div>
+              <b>Tx hash:</b>{" "}
+              <a href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" rel="noreferrer">
+                {txHash}
+              </a>
+            </div>
+          )}
+
+          {error && (
+            <div className="error-banner">
+              <b>Error:</b> {error}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

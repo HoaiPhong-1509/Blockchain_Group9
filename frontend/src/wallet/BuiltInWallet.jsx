@@ -441,26 +441,36 @@ export default function BuiltInWallet() {
   }
 
   return (
-    <div style={{ fontFamily: "system-ui" }}>
-      <h2>Built-in Wallet (Accounts + Multi-wallet, Sepolia)</h2>
+    <div className="page">
+      <div className="page-title">
+        <h2>Built-in Wallet</h2>
+        <div className="pill">
+          <span>Network</span>
+          <b>Sepolia</b>
+        </div>
+      </div>
 
       {!rpcUrlsRaw && !rpcUrlSingle && (
-        <div style={{ marginBottom: 12, opacity: 0.8, fontSize: 12, lineHeight: 1.4 }}>
+        <div className="card">
+          <div className="help">
           Chưa cấu hình <b>VITE_SEPOLIA_RPC_URLS</b>/<b>VITE_SEPOLIA_RPC_URL</b> — app sẽ dùng RPC public mặc định.
+          </div>
         </div>
       )}
 
       {screen === "auth" && (
-        <div style={{ maxWidth: 860, margin: "0 auto", textAlign: "left" }}>
-          <p>
-            Tài khoản và ví được lưu <b>cục bộ trên trình duyệt</b> (localStorage) và được <b>mã hoá</b> bằng mật khẩu.
-            Đây là demo học tập — đừng dùng để giữ tiền thật.
-          </p>
+        <div className="page">
+          <div className="card">
+            <div style={{ textAlign: "left" }}>
+              Tài khoản và ví được lưu <b>cục bộ trên trình duyệt</b> (localStorage) và được <b>mã hoá</b> bằng mật khẩu.
+              Đây là demo học tập — đừng dùng để giữ tiền thật.
+            </div>
+          </div>
 
-          <div style={{ display: "grid", gap: 16, gridTemplateColumns: "1fr 1fr" }}>
-            <div style={{ border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, padding: 16 }}>
+          <div className="grid-2">
+            <div className="card" style={{ textAlign: "left" }}>
               <h3>Đăng nhập</h3>
-              <div style={{ display: "grid", gap: 8 }}>
+              <div className="stack">
                 <input
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -472,21 +482,21 @@ export default function BuiltInWallet() {
                   onChange={(e) => setLoginPassword(e.target.value)}
                   placeholder="Password"
                 />
-                <button onClick={() => onLogin()} disabled={!safeTrim(username)}>
+                <button className="btn-primary" onClick={() => onLogin()} disabled={!safeTrim(username)}>
                   Login
                 </button>
 
                 {accounts.length > 0 && (
-                  <div style={{ fontSize: 12, opacity: 0.75 }}>
+                  <div className="muted">
                     Accounts trên máy: {accounts.join(", ")}
                   </div>
                 )}
               </div>
             </div>
 
-            <div style={{ border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, padding: 16 }}>
+            <div className="card" style={{ textAlign: "left" }}>
               <h3>Tạo account</h3>
-              <div style={{ display: "grid", gap: 8 }}>
+              <div className="stack">
                 <input
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -504,17 +514,17 @@ export default function BuiltInWallet() {
                   onChange={(e) => setRegisterPassword2(e.target.value)}
                   placeholder="Nhập lại password"
                 />
-                <button onClick={onRegister} disabled={!safeTrim(username)}>
+                <button className="btn-primary" onClick={onRegister} disabled={!safeTrim(username)}>
                   Create account
                 </button>
               </div>
             </div>
           </div>
 
-          <div style={{ marginTop: 16, border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, padding: 16 }}>
+          <div className="card" style={{ textAlign: "left" }}>
             <h3>Backup/Restore (1 account)</h3>
-            <div style={{ display: "grid", gap: 8, maxWidth: 620 }}>
-              <label style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <div className="stack" style={{ maxWidth: 680 }}>
+              <label className="row" style={{ justifyContent: "flex-start" }}>
                 <input
                   type="checkbox"
                   checked={backupOverwrite}
@@ -530,18 +540,18 @@ export default function BuiltInWallet() {
                 onChange={(e) => onImportBackupFile(e.target.files?.[0])}
               />
 
-              <div style={{ fontSize: 12, opacity: 0.75 }}>
+              <div className="muted">
                 Import backup sẽ khôi phục vault đã mã hoá; bạn vẫn cần password để Login.
               </div>
             </div>
           </div>
 
-          <div style={{ marginTop: 16, border: "1px solid rgba(220,0,0,0.35)", borderRadius: 12, padding: 16 }}>
+          <div className="card danger" style={{ textAlign: "left" }}>
             <h3>Xoá dữ liệu local</h3>
-            <div style={{ fontSize: 12, opacity: 0.8, marginBottom: 8 }}>
+            <div className="help" style={{ marginBottom: 10 }}>
               Nút này sẽ xoá toàn bộ accounts/vault đã lưu trong localStorage của ứng dụng trên máy này.
             </div>
-            <button onClick={wipeAllLocalData} style={{ borderColor: "crimson" }}>
+            <button className="btn-danger" onClick={wipeAllLocalData}>
               Xoá tất cả accounts trên máy
             </button>
           </div>
@@ -549,164 +559,183 @@ export default function BuiltInWallet() {
       )}
 
       {screen === "vault" && (
-        <div style={{ maxWidth: 960, margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-            <div style={{ textAlign: "left" }}>
-              <div>
-                <b>Account:</b> {safeTrim(username) || "-"}
+        <div className="page">
+          <div className="card">
+            <div className="row" style={{ justifyContent: "space-between", alignItems: "flex-start" }}>
+              <div style={{ textAlign: "left", minWidth: 320 }}>
+                <div>
+                  <b>Account:</b> {safeTrim(username) || "-"}
+                </div>
+                <div>
+                  <b>Wallet:</b> {activeWallet?.name || "-"}
+                </div>
+                <div>
+                  <b>Address:</b> {address || "-"} {address ? `(${shortAddr(address)})` : ""}
+                </div>
+                <div>
+                  <b>ChainId:</b> {chainId ?? "-"}
+                </div>
+                <div>
+                  <b>ETH:</b> {ethBalance}
+                </div>
+                <div>
+                  <b>Token:</b> {tokenMeta.symbol} — {tokenBalance}
+                </div>
+                <div className="muted" style={{ wordBreak: "break-all" }}>
+                  Token address: {tokenAddress}
+                </div>
               </div>
-              <div>
-                <b>Wallet:</b> {activeWallet?.name || "-"}
-              </div>
-              <div>
-                <b>Address:</b> {address || "-"} {address ? `(${shortAddr(address)})` : ""}
-              </div>
-              <div>
-                <b>ChainId:</b> {chainId ?? "-"}
-              </div>
-              <div>
-                <b>ETH:</b> {ethBalance}
-              </div>
-              <div>
-                <b>Token:</b> {tokenMeta.symbol} — {tokenBalance}
-              </div>
-              <div style={{ opacity: 0.8, fontSize: 12 }}>
-                Token address: {tokenAddress}
-              </div>
-            </div>
 
-            <div style={{ display: "flex", gap: 8, alignItems: "start", flexWrap: "wrap" }}>
-              <button onClick={refreshBalances} disabled={!activeEthersWallet}>
-                Refresh
-              </button>
-              <button onClick={onExportBackup}>Export backup</button>
-              <button onClick={logout}>Logout</button>
-              <button
-                onClick={() => {
-                  if (window.confirm("Xoá account khỏi máy? Không thể khôi phục nếu bạn mất seed phrase.")) {
-                    deleteAccount(username);
-                    refreshAccountsList();
-                    logout();
-                  }
-                }}
-                style={{ borderColor: "crimson" }}
-              >
-                Delete account
-              </button>
+              <div className="row" style={{ alignItems: "start" }}>
+                <button onClick={refreshBalances} disabled={!activeEthersWallet}>
+                  Refresh
+                </button>
+                <button onClick={onExportBackup}>Export backup</button>
+                <button onClick={logout}>Logout</button>
+                <button
+                  className="btn-danger"
+                  onClick={() => {
+                    if (window.confirm("Xoá account khỏi máy? Không thể khôi phục nếu bạn mất seed phrase.")) {
+                      deleteAccount(username);
+                      refreshAccountsList();
+                      logout();
+                    }
+                  }}
+                >
+                  Delete account
+                </button>
+              </div>
             </div>
           </div>
 
-          <hr style={{ margin: "16px 0" }} />
+          <div className="card" style={{ textAlign: "left" }}>
+            <div className="stack">
+              <h3 style={{ margin: 0 }}>Wallets trong account</h3>
+              {wallets.length === 0 && (
+                <div className="muted">Chưa có wallet nào. Hãy tạo/import bên dưới.</div>
+              )}
 
-          <div style={{ display: "grid", gap: 12, textAlign: "left" }}>
-            <div>
-              <h3>Wallets trong account</h3>
-              {wallets.length === 0 && <div style={{ opacity: 0.75 }}>Chưa có wallet nào. Hãy tạo/import bên dưới.</div>}
-
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
+              <div className="row" style={{ marginTop: 2 }}>
                 {wallets.map((w) => (
-                  <div key={w.id} style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                  <div key={w.id} className="row" style={{ gap: 6 }}>
                     <button
                       onClick={() => chooseWallet(w.id)}
                       style={{
-                        borderColor: (activeWallet?.id === w.id) ? "#646cff" : undefined,
+                        borderColor: activeWallet?.id === w.id ? "#646cff" : undefined,
                       }}
                     >
                       {w.name}
                     </button>
                     <button
+                      className="btn-danger"
                       onClick={() => {
                         if (window.confirm(`Xoá ví '${w.name}' khỏi account?`)) deleteWalletFromAccount(w.id);
                       }}
-                      style={{ borderColor: "crimson" }}
                     >
                       X
                     </button>
                   </div>
                 ))}
               </div>
-            </div>
 
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              <button onClick={startCreateWallet}>Create wallet</button>
-              <button onClick={startImportWallet}>Import wallet</button>
-              {walletMode !== "none" && (
-                <button
-                  onClick={() => {
-                    setWalletMode("none");
-                    setDraftMnemonic("");
-                    setDraftName("");
-                    setSavedConfirm(false);
-                  }}
-                >
-                  Cancel
+              <div className="row" style={{ marginTop: 6 }}>
+                <button className="btn-primary" onClick={startCreateWallet}>
+                  Create wallet
                 </button>
+                <button onClick={startImportWallet}>Import wallet</button>
+                {walletMode !== "none" && (
+                  <button
+                    onClick={() => {
+                      setWalletMode("none");
+                      setDraftMnemonic("");
+                      setDraftName("");
+                      setSavedConfirm(false);
+                    }}
+                  >
+                    Cancel
+                  </button>
+                )}
+              </div>
+
+              {walletMode !== "none" && (
+                <div className="card" style={{ boxShadow: "none" }}>
+                  <div style={{ marginBottom: 8, fontWeight: 700 }}>
+                    {walletMode === "create" ? "Tạo ví mới" : "Import ví"}
+                  </div>
+                  <div className="stack">
+                    <input
+                      value={draftName}
+                      onChange={(e) => setDraftName(e.target.value)}
+                      placeholder="Tên ví (vd: ví phụ, ví test...)"
+                    />
+                    <textarea
+                      rows={3}
+                      value={draftMnemonic}
+                      onChange={(e) => setDraftMnemonic(e.target.value)}
+                      readOnly={walletMode === "create"}
+                      placeholder={walletMode === "create" ? "Mnemonic sẽ hiện ở đây" : "Nhập mnemonic 12/24 từ"}
+                    />
+
+                    <label className="row" style={{ justifyContent: "flex-start" }}>
+                      <input
+                        type="checkbox"
+                        checked={savedConfirm}
+                        onChange={(e) => setSavedConfirm(e.target.checked)}
+                      />
+                      Tôi đã lưu seed phrase ở nơi an toàn.
+                    </label>
+
+                    <button className="btn-primary" onClick={addWalletToAccount}>
+                      Add wallet to account
+                    </button>
+                  </div>
+                </div>
               )}
             </div>
+          </div>
 
-            {walletMode !== "none" && (
-              <div style={{ border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, padding: 12 }}>
-                <div style={{ marginBottom: 8, fontWeight: 600 }}>
-                  {walletMode === "create" ? "Tạo ví mới" : "Import ví"}
+          <div className="card" style={{ textAlign: "left" }}>
+            <div className="stack" style={{ maxWidth: 760, margin: "0 auto" }}>
+              <h3 style={{ margin: 0 }}>Send</h3>
+              <div className="muted">Gửi ETH hoặc ERC-20 từ ví đang chọn.</div>
+              <input value={to} onChange={(e) => setTo(e.target.value)} placeholder="To address: 0x..." />
+
+              <div className="grid-2">
+                <div className="stack">
+                  <div style={{ fontWeight: 700 }}>ETH</div>
+                  <input value={ethAmount} onChange={(e) => setEthAmount(e.target.value)} placeholder="Amount ETH" />
+                  <button className="btn-primary" onClick={sendEth} disabled={!activeEthersWallet}>
+                    Send ETH
+                  </button>
                 </div>
-                <div style={{ display: "grid", gap: 8 }}>
+                <div className="stack">
+                  <div style={{ fontWeight: 700 }}>ERC-20</div>
                   <input
-                    value={draftName}
-                    onChange={(e) => setDraftName(e.target.value)}
-                    placeholder="Tên ví (vd: ví phụ, ví test...)"
+                    value={tokenAmount}
+                    onChange={(e) => setTokenAmount(e.target.value)}
+                    placeholder={`Amount ${tokenMeta.symbol || "token"}`}
                   />
-                  <textarea
-                    rows={3}
-                    value={draftMnemonic}
-                    onChange={(e) => setDraftMnemonic(e.target.value)}
-                    readOnly={walletMode === "create"}
-                    style={{ width: "100%" }}
-                    placeholder={walletMode === "create" ? "Mnemonic sẽ hiện ở đây" : "Nhập mnemonic 12/24 từ"}
-                  />
-
-                  <label style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                    <input
-                      type="checkbox"
-                      checked={savedConfirm}
-                      onChange={(e) => setSavedConfirm(e.target.checked)}
-                    />
-                    Tôi đã lưu seed phrase ở nơi an toàn.
-                  </label>
-
-                  <button onClick={addWalletToAccount}>
-                    Add wallet to account
+                  <button className="btn-primary" onClick={sendToken} disabled={!activeEthersWallet}>
+                    Send {tokenMeta.symbol || "token"}
                   </button>
                 </div>
               </div>
-            )}
-          </div>
 
-          <hr style={{ margin: "16px 0" }} />
-
-          <div style={{ display: "grid", gap: 8, maxWidth: 720, margin: "0 auto" }}>
-            <h3>Send ETH</h3>
-            <input value={to} onChange={(e) => setTo(e.target.value)} placeholder="To address: 0x..." />
-            <input value={ethAmount} onChange={(e) => setEthAmount(e.target.value)} placeholder="Amount ETH" />
-            <button onClick={sendEth} disabled={!activeEthersWallet}>Send ETH</button>
-
-            <h3 style={{ marginTop: 12 }}>Send ERC-20</h3>
-            <input value={tokenAmount} onChange={(e) => setTokenAmount(e.target.value)} placeholder={`Amount ${tokenMeta.symbol || "token"}`} />
-            <button onClick={sendToken} disabled={!activeEthersWallet}>Send {tokenMeta.symbol || "token"}</button>
-
-            {txHash && (
-              <div>
-                <b>Tx hash:</b>{" "}
-                <a href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" rel="noreferrer">
-                  {txHash}
-                </a>
-              </div>
-            )}
+              {txHash && (
+                <div>
+                  <b>Tx hash:</b>{" "}
+                  <a href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" rel="noreferrer">
+                    {txHash}
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
 
       {error && (
-        <div style={{ color: "crimson", marginTop: 12 }}>
+        <div className="error-banner">
           <b>Error:</b> {error}
         </div>
       )}

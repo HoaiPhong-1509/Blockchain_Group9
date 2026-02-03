@@ -7,16 +7,41 @@ export default function App() {
   const [mode, setMode] = useState("wallet");
 
   return (
-    <div style={{ padding: 24, maxWidth: 960 }}>
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
-        <button onClick={() => setMode("wallet")}>Built-in Wallet</button>
-        <button onClick={() => setMode("metamask")}>MetaMask DApp</button>
-      </div>
+    <div className="app-shell">
+      <div className="container">
+        <div className="header">
+          <div className="brand">
+            <h1>Blockchain Wallet Demo</h1>
+            <p>Built-in Wallet (local encrypted vault) + MetaMask DApp (Sepolia)</p>
+          </div>
 
-      {mode === "wallet" ? <BuiltInWallet /> : <MetamaskDapp />}
+          <div className="tabs" role="tablist" aria-label="App mode">
+            <button
+              className={`tab ${mode === "wallet" ? "active" : ""}`}
+              onClick={() => setMode("wallet")}
+              type="button"
+              role="tab"
+              aria-selected={mode === "wallet"}
+            >
+              Built-in Wallet
+            </button>
+            <button
+              className={`tab ${mode === "metamask" ? "active" : ""}`}
+              onClick={() => setMode("metamask")}
+              type="button"
+              role="tab"
+              aria-selected={mode === "metamask"}
+            >
+              MetaMask DApp
+            </button>
+          </div>
+        </div>
 
-      <div style={{ marginTop: 18, opacity: 0.75, fontSize: 12, lineHeight: 1.5 }}>
-        Lưu ý: Built-in Wallet là demo học tập, seed phrase được mã hoá và lưu trên máy.
+        {mode === "wallet" ? <BuiltInWallet /> : <MetamaskDapp />}
+
+        <div className="footer-note">
+          Lưu ý: Built-in Wallet là demo học tập, seed phrase được mã hoá và lưu trên máy.
+        </div>
       </div>
     </div>
   );
