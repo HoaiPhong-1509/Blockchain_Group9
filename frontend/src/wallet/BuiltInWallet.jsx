@@ -450,22 +450,11 @@ export default function BuiltInWallet() {
         </div>
       </div>
 
-      {!rpcUrlsRaw && !rpcUrlSingle && (
-        <div className="card">
-          <div className="help">
-          Chưa cấu hình <b>VITE_SEPOLIA_RPC_URLS</b>/<b>VITE_SEPOLIA_RPC_URL</b> — app sẽ dùng RPC public mặc định.
-          </div>
-        </div>
-      )}
+      
 
       {screen === "auth" && (
         <div className="page">
-          <div className="card">
-            <div style={{ textAlign: "left" }}>
-              Tài khoản và ví được lưu <b>cục bộ trên trình duyệt</b> (localStorage) và được <b>mã hoá</b> bằng mật khẩu.
-              Đây là demo học tập — đừng dùng để giữ tiền thật.
-            </div>
-          </div>
+          
 
           <div className="grid-2">
             <div className="card" style={{ textAlign: "left" }}>

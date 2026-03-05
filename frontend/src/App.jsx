@@ -11,7 +11,7 @@ export default function App() {
       <div className="container">
         <div className="header">
           <div className="brand">
-            <h1>Blockchain Wallet Demo</h1>
+            <h1>Blockchain Wallet</h1>
             <p>Built-in Wallet (local encrypted vault) + MetaMask DApp (Sepolia)</p>
           </div>
 
@@ -39,9 +39,7 @@ export default function App() {
 
         {mode === "wallet" ? <BuiltInWallet /> : <MetamaskDapp />}
 
-        <div className="footer-note">
-          Lưu ý: Built-in Wallet là demo học tập, seed phrase được mã hoá và lưu trên máy.
-        </div>
+        
       </div>
     </div>
   );
